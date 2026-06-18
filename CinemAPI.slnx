@@ -2,5 +2,5 @@
   <Project Path="CinemAPI.Application/CinemAPI.Application.csproj" />
   <Project Path="CinemAPI.Domain/CinemAPI.Domain.csproj" />
   <Project Path="CinemAPI.Infrastructure/CinemAPI.Infrastructure.csproj" />
-  <Project Path="CinemAPI.WebApi/CinemAPI.WebApi.csproj" Id="b91b2fda-3029-4177-9dd8-4db16e81a98f" />
+  <Project Path="CinemAPI.WebApi/CinemAPI.WebApi.csproj" Id="98b0a987-4b9f-4012-844a-cd234c195c04" />
 </Solution>
