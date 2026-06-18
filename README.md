@@ -1,164 +1,57 @@
 # 🎬 CinemAPI
 
-**CinemAPI** — backend-сервис на ASP.NET Core (.NET 10), построенный по трёхслойной архитектуре с выделенным доменным слоем. Предоставляет Web API для работы с данными (CRUD), хранит файлы и обрабатывает фоновые операции через Azure Storage.
+**CinemAPI** is a backend service built on ASP.NET Core (.NET 10), following a three-layer architecture with a dedicated domain layer. It provides a Web API for data operations (CRUD), stores files, and handles background operations via Azure Storage.
 
-## 📐 Архитектура
+## 📐 Architecture
 
-Проект построен по принципу **трёхслойной архитектуры (3-Layer Architecture)** с дополнительным выделенным **Domain**-слоем, что приближает решение к подходу Clean Architecture:
+The project follows the **3-Layer Architecture** principle with an additional dedicated **Domain** layer, which brings the solution closer to the Clean Architecture approach:
 
-```
-CinemAPI/
-├── CinemAPI.Domain/            # Доменный слой
-│   ├── Entities/                # Сущности предметной области
-│   ├── Interfaces/              # Контракты репозиториев и сервисов
-│   └── Exceptions/              # Доменные исключения
-│
-├── CinemAPI.DataAccess/        # Слой доступа к данным
-│   ├── Context/                 # DbContext (Entity Framework Core)
-│   ├── Repositories/            # Реализации Repository Pattern
-│   ├── Migrations/              # EF Core миграции
-│   └── Configurations/          # Fluent API конфигурации сущностей
-│
-├── CinemAPI.BusinessLogic/     # Слой бизнес-логики
-│   ├── Services/                 # Сервисы (бизнес-правила, оркестрация)
-│   ├── DTOs/                     # Data Transfer Objects
-│   ├── Mapping/                  # AutoMapper-профили
-│   └── Validators/               # Валидация (FluentValidation)
-│
-└── CinemAPI.WebAPI/             # Presentation-слой
-    ├── Controllers/              # API-контроллеры
-    ├── Middlewares/              # Обработка ошибок и пр.
-    ├── Extensions/                # DI-регистрация, конфигурация Scalar
-    └── Program.cs
-```
+- **CinemAPI.Domain** — domain layer: domain entities, repository and service contracts, domain exceptions.
+- **CinemAPI.Infrastructure** — data access layer: `DbContext` (Entity Framework Core), Repository Pattern implementations, migrations, entity configurations.
+- **CinemAPI.Application** — business logic layer: services, DTOs, mapping, validation.
+- **CinemAPI.WebAPI** — presentation layer: controllers, middleware, DI registration, Scalar configuration.
 
-**Принцип зависимостей:** `WebAPI → BusinessLogic → DataAccess → Domain`
-Domain не зависит ни от одного из слоёв и содержит только бизнес-сущности и интерфейсы — это позволяет легко подменять реализации (например, репозитории) без изменения бизнес-логики.
+**Dependency principle:** `WebAPI → Infrastructure → Application → Domain`
 
-## 🛠 Технологический стек
+## 🛠 Tech Stack
 
-| Категория | Технология |
+| Category | Technology |
 |---|---|
-| Язык | C# |
-| Платформа | ASP.NET Core (.NET 10) |
-| Тип приложения | Web API |
+| Language | C# |
+| Platform | ASP.NET Core (.NET 10) |
+| Application type | Web API |
 | ORM | Entity Framework Core |
-| База данных | Azure SQL Server |
-| Файловое/очередное хранилище | Azure Storage (Blob + Queue) |
-| Документация API | Scalar |
-| Паттерны | Repository Pattern, Dependency Injection |
+| Database | Azure SQL Server |
+| File/queue storage | Azure Storage (Blob + Queue) |
+| API documentation | Scalar |
+| Patterns | Repository Pattern, Dependency Injection |
 
-## ✨ Возможности
+## ✨ Features
 
-- ✅ CRUD-операции над сущностями предметной области
-- ✅ Трёхслойная архитектура с изоляцией Domain-слоя
-- ✅ Repository Pattern поверх EF Core для абстракции доступа к данным
-- ✅ Dependency Injection для всех сервисов и репозиториев
-- ✅ Хранение файлов (изображения, медиа) в **Azure Blob Storage**
-- ✅ Асинхронная обработка фоновых задач через **Azure Queue Storage**
-- ✅ Интерактивная документация и тестирование API через **Scalar**
-- ✅ Миграции базы данных через EF Core Migrations
+- ✅ CRUD operations on domain entities
+- ✅ Three-layer architecture with an isolated Domain layer
+- ✅ Repository Pattern on top of EF Core for data access abstraction
+- ✅ Dependency Injection for all services and repositories
+- ✅ File storage (images, media) in **Azure Blob Storage**
+- ✅ Asynchronous background task processing via **Azure Queue Storage**
+- ✅ Interactive API documentation and testing via **Scalar**
+- ✅ Database migrations via EF Core Migrations
 
-## 📋 Требования
+## ☁️ Azure Storage Integration
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- Azure SQL Server (либо локальный SQL Server для разработки)
-- Учётная запись Azure Storage (Blob + Queue)
-- Visual Studio 2022+ / VS Code / Rider
-
-## 🚀 Быстрый старт
-
-### 1. Клонирование репозитория
-
-```bash
-git clone https://github.com/<your-username>/CinemAPI.git
-cd CinemAPI
-```
-
-### 2. Настройка конфигурации
-
-Добавьте строки подключения в `CinemAPI.WebAPI/appsettings.Development.json`:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=tcp:<your-server>.database.windows.net,1433;Database=CinemAPI;User ID=<user>;Password=<password>;Encrypt=True;",
-    "AzureStorage": "DefaultEndpointsProtocol=https;AccountName=<account-name>;AccountKey=<account-key>;EndpointSuffix=core.windows.net"
-  },
-  "AzureStorage": {
-    "BlobContainerName": "cinemapi-files",
-    "QueueName": "cinemapi-queue"
-  }
-}
-```
-
-> 💡 Для production рекомендуется использовать **Azure Key Vault** или **User Secrets** вместо хранения ключей в `appsettings.json`.
-
-### 3. Применение миграций
-
-```bash
-dotnet ef database update --project CinemAPI.DataAccess --startup-project CinemAPI.WebAPI
-```
-
-### 4. Запуск приложения
-
-```bash
-dotnet run --project CinemAPI.WebAPI
-```
-
-После запуска API будет доступен по адресу `https://localhost:<port>`, а интерактивная документация Scalar — по адресу:
-
-```
-https://localhost:<port>/scalar/v1
-```
-
-## 📦 Работа с миграциями EF Core
-
-Создать новую миграцию:
-
-```bash
-dotnet ef migrations add <MigrationName> --project CinemAPI.DataAccess --startup-project CinemAPI.WebAPI
-```
-
-Применить миграции к базе данных:
-
-```bash
-dotnet ef database update --project CinemAPI.DataAccess --startup-project CinemAPI.WebAPI
-```
-
-Откатить миграцию:
-
-```bash
-dotnet ef database update <PreviousMigrationName> --project CinemAPI.DataAccess --startup-project CinemAPI.WebAPI
-```
-
-## ☁️ Интеграция с Azure Storage
-
-| Сервис | Назначение |
+| Service | Purpose |
 |---|---|
-| **Blob Storage** | Хранение файлов (постеры фильмов, изображения, документы) |
-| **Queue Storage** | Асинхронная обработка фоновых операций (например, обработка загруженных файлов, рассылка уведомлений) |
+| **Blob Storage** | File storage (movie posters, images, documents) |
+| **Queue Storage** | Asynchronous background processing (e.g. uploaded file processing, notifications) |
 
-Доступ к Storage реализован через абстракции в `Domain.Interfaces` (`IBlobStorageService`, `IQueueStorageService`) и регистрируется через DI в `CinemAPI.WebAPI/Extensions`.
-
-## 🧩 Паттерны проектирования
+## 🧩 Design Patterns
 
 ### Repository Pattern
-Каждая сущность Domain-слоя имеет соответствующий репозиторий с интерфейсом в `Domain.Interfaces` и реализацией в `DataAccess.Repositories`, что изолирует бизнес-логику от деталей работы с EF Core.
+Each Domain-layer entity has a corresponding repository with an interface and implementation in `DataAccess.Infrastructure`, isolating business logic from EF Core implementation details.
 
 ### Dependency Injection
-Все сервисы, репозитории и клиенты Azure Storage регистрируются в контейнере DI в `Program.cs` / `Extensions`, что обеспечивает слабую связанность компонентов и упрощает тестирование.
-
-## 🧪 Тестирование
-
-```bash
-dotnet test
-```
-
-## 📄 Лицензия
-
-Укажите лицензию проекта (например, MIT).
+All services, repositories, and Azure Storage clients are registered in the DI container in `Program.cs` / `Extensions`, ensuring loose coupling between components and simplifying testing.
 
 ---
 
-Сделано с ❤️ на ASP.NET Core
+Made with 💜 using ASP.NET Core
