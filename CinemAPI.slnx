@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="../CinemAPI.Application/CinemAPI.Application.csproj" Id="4ae92439-e4f7-4598-a750-8b1f3e6a900c" />
-  <Project Path="../CinemAPI.Domain/CinemAPI.Domain.csproj" Id="350672f1-38a0-42b9-a2a0-886639a97f55" />
-  <Project Path="../CinemAPI.Infrastructure/CinemAPI.Infrastructure.csproj" Id="8412a1f8-4150-42df-9b71-7cfbc49b55b5" />
-  <Project Path="CinemAPI.csproj" />
+  <Project Path="CinemAPI.Application/CinemAPI.Application.csproj" />
+  <Project Path="CinemAPI.Domain/CinemAPI.Domain.csproj" />
+  <Project Path="CinemAPI.Infrastructure/CinemAPI.Infrastructure.csproj" />
+  <Project Path="CinemAPI.WebApi/CinemAPI.WebApi.csproj" Id="b91b2fda-3029-4177-9dd8-4db16e81a98f" />
 </Solution>
