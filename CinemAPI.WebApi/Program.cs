@@ -1,5 +1,5 @@
 
-namespace CinemAPI
+namespace CinemAPI.WebApi
 {
 	public class Program
 	{
