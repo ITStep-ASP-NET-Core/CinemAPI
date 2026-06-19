@@ -1,0 +1,13 @@
+﻿using CinemAPI.Domain.Entities;
+
+namespace CinemAPI.Infrastructure.Interfaces
+{
+    public interface IUnitOfWork
+    {
+        IGenericRepository<Actor> Actors { get; }
+        IGenericRepository<Genre> Genres { get; }
+        IMovieRepository Movies { get; }
+
+        Task SaveChangesAsync();
+    }
+}
