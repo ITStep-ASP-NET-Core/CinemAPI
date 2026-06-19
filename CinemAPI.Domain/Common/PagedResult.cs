@@ -1,5 +1,4 @@
-﻿
-namespace CinemAPI.Domain.Entities
+﻿namespace CinemAPI.Domain.Common
 {
 	public class PagedResult<T>
     {
