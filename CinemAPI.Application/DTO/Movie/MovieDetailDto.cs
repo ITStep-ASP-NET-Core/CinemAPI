@@ -8,8 +8,8 @@ namespace CinemAPI.Application.DTO.Movie
 		public int Id { get; set; }
 		public string Title { get; set; } = "Untitled";
 		public string? Description { get; set; }
-		public IEnumerable<ActorDto> ActorIds { get; set; } = [];
-		public IEnumerable<GenreDto> GenreIds { get; set; } = [];
+		public IEnumerable<ActorDto> Actors { get; set; } = [];
+		public IEnumerable<GenreDto> Genres { get; set; } = [];
 		public DateOnly ReleaseYear { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 	}
 }
