@@ -79,13 +79,32 @@ namespace CinemAPI.Infrastructure.Repositories
 				.FirstOrDefaultAsync(r => r.Id == id);
 		}
 
-		public async Task AddMovieAsync ( Movie movie )
+		public async Task AddMovieAsync ( Movie movie, IEnumerable<int>? ActorIds = null, IEnumerable<int>? GenreIds = null )
 		{
+			if (ActorIds != null || ActorIds?.Count() > 0) {
+				var actors = await _context.Actors.Where(a => ActorIds.Contains(a.Id)).ToListAsync();
+				movie.Actors = actors;
+			}
+			if(GenreIds != null || GenreIds?.Count() > 0)
+			{
+				var genres = await _context.Genres.Where(g => GenreIds.Contains(g.Id)).ToListAsync();
+				movie.Genres = genres;
+			}
 			await _context.Movies.AddAsync(movie);
 		}
 
-		public void UpdateMovie ( Movie movie )
+		public async Task UpdateMovie ( Movie movie, IEnumerable<int>? ActorIds = null, IEnumerable<int>? GenreIds = null )
 		{
+			if(ActorIds != null || ActorIds?.Count() > 0)
+			{
+				var actors = await _context.Actors.Where(a => ActorIds.Contains(a.Id)).ToListAsync();
+				movie.Actors = actors;
+			}
+			if(GenreIds != null || GenreIds?.Count() > 0)
+			{
+				var genres = await _context.Genres.Where(g => GenreIds.Contains(g.Id)).ToListAsync();
+				movie.Genres = genres;
+			}
 			_context.Movies.Update(movie);
 		}
 

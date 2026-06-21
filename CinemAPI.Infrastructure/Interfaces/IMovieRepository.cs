@@ -14,8 +14,8 @@ namespace CinemAPI.Infrastructure.Interfaces
 			int pageSize = 2 );
 		Task<Movie?> GetMovieByIdAsync ( int id );
 		Task<Movie?> GetMovieByIdWithAllAsync( int id );
-        Task AddMovieAsync(Movie movie);
-        void UpdateMovie(Movie movie);
+        Task AddMovieAsync(Movie movie, IEnumerable<int>? ActorIds = null, IEnumerable<int>? GenreIds = null );
+        Task UpdateMovie(Movie movie, IEnumerable<int>? ActorIds = null, IEnumerable<int>? GenreIds = null );
         void DeleteMovie(Movie movie);
     }
 }
