@@ -6,6 +6,7 @@ namespace CinemAPI.Infrastructure.Interfaces
     public interface IMovieRepository
     {
         Task<PagedResult<Movie>> GetMoviesAsync(int page, int pageSize = 2);
+		Task<PagedResult<Movie>> GetMoviesWithAllAsync ( int page, int pageSize = 2 );
 		Task<PagedResult<Movie>> GetMoviesByFiltersAsync(
 			string? searchQuery,
 			ICollection<int>? actorIds,

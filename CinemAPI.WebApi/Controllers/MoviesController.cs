@@ -7,11 +7,11 @@ namespace GrandmasMovies.WebApi.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class MovieController : ControllerBase
+	public class MoviesController : ControllerBase
 	{
 		private readonly IMovieService _movieService;
 
-		public MovieController ( IMovieService movieService )
+		public MoviesController ( IMovieService movieService )
 		{
 			_movieService = movieService;
 		}
@@ -21,7 +21,7 @@ namespace GrandmasMovies.WebApi.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetMovie ( int id )
 		{
-			var result = await _movieService.GetMoviesAsync(id);
+			var result = await _movieService.GetMovieByIdAsync(id);
 			if(result is null)
 				return NotFound();
 

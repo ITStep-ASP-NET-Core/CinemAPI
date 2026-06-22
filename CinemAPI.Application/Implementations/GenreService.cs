@@ -17,8 +17,8 @@ namespace CinemAPI.Application.Implementations
 		}
 
 		public async Task<PagedResult<GenreDto>> GetAllAsync ( int page )
-		{
-			var source = await _uow.Genres.GetAllAsync(page);
+		{	
+			var source = await _uow.Genres.GetAllAsync(Math.Max(0, page - 1));
 			var Genres = source.Items.Select(GenreMapper.ToDto).ToList();
 
 			return new PagedResult<GenreDto>
