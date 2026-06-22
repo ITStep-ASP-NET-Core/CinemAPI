@@ -32,6 +32,25 @@ namespace CinemAPI.Infrastructure.Repositories
 			};
 		}
 
+		public async Task<PagedResult<Movie>> GetMoviesWithAllAsync ( int page, int pageSize = 2 )
+		{
+			var items = await _context.Movies
+				.Skip(page * pageSize)
+				.Take(pageSize)
+				.Include(m => m.Actors)
+				.Include(m => m.Genres)
+				.AsNoTracking()
+				.ToListAsync();
+
+			return new PagedResult<Movie>
+			{
+				Items = items,
+				PageNumber = page,
+				PageSize = pageSize,
+				TotalCount = await _context.Movies.CountAsync()
+			};
+		}
+
 		public async Task<PagedResult<Movie>> GetMoviesByFiltersAsync (
 			string? searchQuery,
 			ICollection<int>? actorIds,
@@ -53,6 +72,8 @@ namespace CinemAPI.Infrastructure.Repositories
 			var items = await query
 				.Skip(page * pageSize)
 				.Take(pageSize)
+				.Include(m => m.Actors)
+				.Include(m => m.Genres)
 				.AsNoTracking()
 				.ToListAsync();
 
