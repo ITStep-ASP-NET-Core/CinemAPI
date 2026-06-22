@@ -21,7 +21,7 @@ namespace GrandmasMovies.WebApi.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<IActionResult> GetMovie ( int id )
 		{
-			var result = await _movieService.GetMoviesAsync(id);
+			var result = await _movieService.GetMovieByIdAsync(id);
 			if(result is null)
 				return NotFound();
 
