@@ -7,6 +7,6 @@ namespace CinemAPI.Domain.Entities
 		public string Name { get; set; } = string.Empty;
 		public string Biography { get; set; } = string.Empty;
 		public DateOnly BirthDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-		public IEnumerable<Movie> Movies { get; set; } = [];
+		public ICollection<Movie> Movies { get; set; } = [];
 	}
 }
