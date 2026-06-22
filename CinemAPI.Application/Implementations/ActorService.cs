@@ -18,7 +18,7 @@ namespace CinemAPI.Application.Implementations
 
         public async Task<PagedResult<ActorDto>> GetAllAsync(int page)
         {
-            var source = await _uow.Actors.GetAllAsync(page);
+            var source = await _uow.Actors.GetAllAsync(Math.Max(0, page - 1));
 			var actors = source.Items.Select(ActorMapper.ToDto).ToList();
 
 			return new PagedResult<ActorDto>

@@ -20,7 +20,7 @@ namespace CinemAPI.Application.Implementations
 
 		public async Task<PagedResult<MovieDto>> GetMoviesAsync ( int page )
 		{
-			var source = await _movieRepository.GetMoviesAsync(page);
+			var source = await _movieRepository.GetMoviesWithAllAsync(Math.Max(0, page - 1));
 			var movies = source.Items.Select(MovieMapper.ToDto).ToList();
 
 			return new PagedResult<MovieDto>
@@ -38,7 +38,7 @@ namespace CinemAPI.Application.Implementations
 				filter.SearchQuery,
 				filter.ActorIds,
 				filter.GenreIds,
-				page >= 0 ? page : 0);
+				Math.Max(0, page - 1));
 			var movies = source.Items.Select(MovieMapper.ToDto).ToList();
 
 			return new PagedResult<MovieDto>
