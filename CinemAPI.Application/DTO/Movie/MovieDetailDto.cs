@@ -8,6 +8,7 @@ namespace CinemAPI.Application.DTO.Movie
 		public int Id { get; set; }
 		public string Title { get; set; } = "Untitled";
 		public string? Description { get; set; }
+		public string? PosterUrl { get; set; }
 		public ICollection<ActorDto> Actors { get; set; } = [];
 		public ICollection<GenreDto> Genres { get; set; } = [];
 		public DateOnly ReleaseYear { get; set; } = DateOnly.FromDateTime(DateTime.Now);
