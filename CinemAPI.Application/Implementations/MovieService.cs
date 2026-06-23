@@ -10,11 +10,13 @@ namespace CinemAPI.Application.Implementations
 	public class MovieService : IMovieService
 	{
 		private readonly IMovieRepository _movieRepository;
+		private readonly IStorageRepository _storageRepository;
 		private readonly IUnitOfWork _uow;
 
-		public MovieService ( IMovieRepository movieRepository, IUnitOfWork uow )
+		public MovieService ( IMovieRepository movieRepository, IStorageRepository storageRepository, IUnitOfWork uow )
 		{
 			_movieRepository = movieRepository;
+			_storageRepository = storageRepository;
 			_uow = uow;
 		}
 
@@ -55,6 +57,28 @@ namespace CinemAPI.Application.Implementations
 			var movie = await _movieRepository.GetMovieByIdWithAllAsync(movieId);
 			if(movie == null) return null;
 			return MovieMapper.ToDetailDto(movie);
+		}
+
+		public async Task<Result> UploadMoviePosterAsync ( int movieId, UploadFile uploadFile, CancellationToken ct = default )
+		{
+			try
+			{
+				var movie = await _movieRepository.GetMovieByIdAsync(movieId);
+				if(movie == null) return Result.Fail("Movie does not exist");
+
+				uploadFile.FileName = $"{Guid.NewGuid()}/poster";
+
+				var posterUrl = await _storageRepository.UploadAsync(uploadFile, "movie-gallery", ct);
+				
+				movie.PosterUrl = posterUrl;
+
+				await _uow.SaveChangesAsync();
+			}
+			catch(Exception)
+			{
+				return Result.Fail("Failed to upload movie poster");
+			}
+			return Result.Ok();
 		}
 
 		public async Task<Result> CreateMovieAsync ( MovieCreateDto dto )

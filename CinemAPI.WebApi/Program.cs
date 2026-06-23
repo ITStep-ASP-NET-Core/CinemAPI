@@ -15,7 +15,12 @@ namespace CinemAPI.WebApi
 			var sqlConnection = builder.Configuration.GetConnectionString("DefaultConnection")
 				?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 			
-			builder.Services.AddApplicationContext(builder.Configuration.GetConnectionString("DefaultConnection"));
+			builder.Services.AddApplicationContext(sqlConnection);
+
+			var storageConnection = builder.Configuration.GetConnectionString("StorageConnection")
+				?? throw new InvalidOperationException("Connection string 'StorageConnection' not found");
+
+			builder.Services.AddStorageContext(storageConnection);
 
 			builder.Services.AddUnitOfWork();
 			builder.Services.AddApplicationServices();

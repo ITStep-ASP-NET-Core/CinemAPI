@@ -11,6 +11,7 @@ namespace CinemAPI.Infrastructure.Repositories
 		public IGenericRepository<Actor> Actors { get; }
 		public IGenericRepository<Genre> Genres { get; }
 		public IMovieRepository Movies { get; }
+		public IStorageRepository Storage { get; }
 
 
 		public UnitOfWork
@@ -18,13 +19,15 @@ namespace CinemAPI.Infrastructure.Repositories
             ApplicationContext context,
 			IGenericRepository<Actor> actors,
 			IGenericRepository<Genre> genres,
-			IMovieRepository movies
+			IMovieRepository movies,
+			IStorageRepository storage
 		)
         {
             _context = context;
 			Actors = actors;
 			Genres = genres;
 			Movies = movies;
+			Storage = storage;
 		}
 
         public async Task SaveChangesAsync()

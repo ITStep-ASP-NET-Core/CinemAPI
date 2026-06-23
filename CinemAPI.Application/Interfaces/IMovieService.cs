@@ -10,7 +10,8 @@ namespace CinemAPI.Application.Interfaces
         Task<PagedResult<MovieDto>> GetMoviesAsync(int page);
         Task<PagedResult<MovieDto>> GetMoviesByFiltersAsync(MovieFilterDto filter, int page);
         Task<MovieDetailDto?> GetMovieByIdAsync(int id);
-        Task<Result> CreateMovieAsync(MovieCreateDto movieDto);
+        Task<Result> UploadMoviePosterAsync ( int movieId, UploadFile uploadFile, CancellationToken ct = default );
+		Task<Result> CreateMovieAsync(MovieCreateDto movieDto);
         Task<Result> EditMovieAsync(MovieEditDto movieDto);
         Task<Result> DeleteMovieAsync(int id);
     }

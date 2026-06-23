@@ -10,6 +10,7 @@ namespace CinemAPI.Application.Mappers
 			Id = movie.Id,
 			Title = movie.Title,
 			ReleaseYear = movie.ReleaseYear,
+			PosterUrl = movie.PosterUrl,
 			ActorIds = movie.Actors.Select( a => a.Id ).ToList(),
 			GenreIds = movie.Genres.Select( a => a.Id ).ToList(),
 		};
@@ -19,6 +20,7 @@ namespace CinemAPI.Application.Mappers
 			Id = movie.Id,
 			Title = movie.Title,
 			Description = movie.Description,
+			PosterUrl = movie.PosterUrl,
 			ReleaseYear = movie.ReleaseYear,
 			Actors = movie.Actors.Select(ActorMapper.ToDto).ToList(),
 			Genres = movie.Genres.Select(GenreMapper.ToDto).ToList(),
