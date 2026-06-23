@@ -10,6 +10,7 @@ namespace CinemAPI.Application.ServiceProviderExtensions
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IStorageRepository, BlobStorageRepository>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
     }
