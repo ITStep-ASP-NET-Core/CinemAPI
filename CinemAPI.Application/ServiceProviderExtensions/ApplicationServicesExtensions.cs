@@ -13,6 +13,7 @@ namespace CinemAPI.Application.ServiceProviderExtensions
 			services.AddScoped<IService<ActorDto>, ActorService>();
 			services.AddScoped<IService<GenreDto>, GenreService>();
 			services.AddScoped<IMovieService, MovieService>();
+			services.AddScoped<ILogService, LogService>();
 		}
 	}
 }
