@@ -12,6 +12,7 @@ namespace CinemAPI.Infrastructure.Repositories
 		public IGenericRepository<Genre> Genres { get; }
 		public IMovieRepository Movies { get; }
 		public IStorageRepository Storage { get; }
+		public ILogRepository Logs { get; }
 
 
 		public UnitOfWork
@@ -20,7 +21,8 @@ namespace CinemAPI.Infrastructure.Repositories
 			IGenericRepository<Actor> actors,
 			IGenericRepository<Genre> genres,
 			IMovieRepository movies,
-			IStorageRepository storage
+			IStorageRepository storage,
+			ILogRepository logs
 		)
         {
             _context = context;
@@ -28,6 +30,7 @@ namespace CinemAPI.Infrastructure.Repositories
 			Genres = genres;
 			Movies = movies;
 			Storage = storage;
+			Logs = logs;
 		}
 
         public async Task SaveChangesAsync()
