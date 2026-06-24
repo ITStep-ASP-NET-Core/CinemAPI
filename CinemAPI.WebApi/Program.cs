@@ -22,6 +22,14 @@ namespace CinemAPI.WebApi
 
 			builder.Services.AddStorageContext(storageConnection);
 
+			var translatorKey = builder.Configuration.GetConnectionString("TranslatorKey")
+				?? throw new InvalidOperationException("Connection string 'TranslatorKey' not found");
+
+			var translatorRegion = builder.Configuration.GetConnectionString("TranslatorRegion")
+				?? throw new InvalidOperationException("Connection string 'TranslatorRegion' not found");
+
+			builder.Services.AddTranslatorContext(translatorKey, translatorRegion);
+
 			builder.Services.AddUnitOfWork();
 			builder.Services.AddApplicationServices();
 
