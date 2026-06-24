@@ -44,6 +44,31 @@ namespace GrandmasMovies.WebApi.Controllers
 			return Ok(result);
 		}
 
+		[HttpPost("{id}/poster")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> UploadPoster ( int id, IFormFile poster, CancellationToken ct )
+		{
+			if(poster.ContentType is not ("image/jpeg" or "image/png"))
+				return BadRequest("Only JPEG or PNG");
+
+			if(poster.Length > 10 * 1024 * 1024)
+				return BadRequest("Maximum size - 10 MB");
+
+			var uploadFile = new UploadFile
+			{
+				Content = poster.OpenReadStream(),
+				ContentType = poster.ContentType,
+				FileName = poster.FileName,
+				FileExtension = Path.GetExtension(poster.FileName)
+			};
+
+			var result = await _movieService.UploadMoviePosterAsync(id, uploadFile, ct);
+			if(!result.Success)
+				return BadRequest(result.Error);
+			return NoContent();
+		}
+
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]

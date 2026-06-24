@@ -7,7 +7,9 @@ namespace CinemAPI.Infrastructure.Interfaces
         IGenericRepository<Actor> Actors { get; }
         IGenericRepository<Genre> Genres { get; }
         IMovieRepository Movies { get; }
+        IStorageRepository Storage { get; }
+        ILogRepository Logs { get; }
 
-        Task SaveChangesAsync();
+		Task SaveChangesAsync();
     }
 }
