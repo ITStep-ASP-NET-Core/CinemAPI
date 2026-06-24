@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CinemAPI.Application.ServiceProviderExtensions
@@ -8,6 +9,7 @@ namespace CinemAPI.Application.ServiceProviderExtensions
         public static void AddStorageContext ( this IServiceCollection services, string? connection )
 		{
 			services.AddSingleton(new BlobServiceClient(connection));
+			services.AddSingleton(new TableServiceClient(connection));
 		}
 	}
 }	
