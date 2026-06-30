@@ -12,6 +12,7 @@ namespace CinemAPI.Application.ServiceProviderExtensions
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IStorageRepository, BlobStorageRepository>();
             services.AddScoped<ILogRepository, TableStorageLogRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
     }
