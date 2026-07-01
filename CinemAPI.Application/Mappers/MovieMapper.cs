@@ -29,7 +29,6 @@ namespace CinemAPI.Application.Mappers
 		public static Movie ToEntity ( MovieCreateDto movieDto ) => new()
 		{
 			Title = movieDto.Title,
-			Description = movieDto.Description,
 			ReleaseYear = movieDto.ReleaseYear,
 		};
 	}
