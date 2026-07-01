@@ -12,6 +12,7 @@ namespace CinemAPI.Infrastructure.Repositories
 		public IGenericRepository<Genre> Genres { get; }
 		public IMovieRepository Movies { get; }
 		public IStorageRepository Storage { get; }
+		public ITranslatorRepository Translator { get; }
 		public ILogRepository Logs { get; }
 		public IChatRepository Chat { get; }
 
@@ -24,7 +25,8 @@ namespace CinemAPI.Infrastructure.Repositories
 			IMovieRepository movies,
 			IStorageRepository storage,
 			ILogRepository logs,
-			IChatRepository chat
+			IChatRepository chat,
+			ITranslatorRepository translator
 		)
         {
             _context = context;
@@ -32,6 +34,7 @@ namespace CinemAPI.Infrastructure.Repositories
 			Genres = genres;
 			Movies = movies;
 			Storage = storage;
+			Translator = translator;
 			Logs = logs;
 			Chat = chat;
 		}

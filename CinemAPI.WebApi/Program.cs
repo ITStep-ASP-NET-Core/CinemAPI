@@ -32,6 +32,14 @@ namespace CinemAPI.WebApi
 				?? throw new InvalidOperationException("Connection string 'ChatModel' not found");
 
 			builder.Services.AddChatContext(chatEndpoint, chatKey, chatModel);
+      
+			var translatorKey = builder.Configuration.GetConnectionString("TranslatorKey")
+				?? throw new InvalidOperationException("Connection string 'TranslatorKey' not found");
+
+			var translatorRegion = builder.Configuration.GetConnectionString("TranslatorRegion")
+				?? throw new InvalidOperationException("Connection string 'TranslatorRegion' not found");
+
+			builder.Services.AddTranslatorContext(translatorKey, translatorRegion);
 
 			builder.Services.AddUnitOfWork();
 			builder.Services.AddApplicationServices();
