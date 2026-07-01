@@ -22,6 +22,17 @@ namespace CinemAPI.WebApi
 
 			builder.Services.AddStorageContext(storageConnection);
 
+			var chatEndpoint = builder.Configuration.GetConnectionString("ChatEndpoint")
+				?? throw new InvalidOperationException("Connection string 'ChatEndpoint' not found");
+
+			var chatKey = builder.Configuration.GetConnectionString("ChatKey")
+				?? throw new InvalidOperationException("Connection string 'ChatKey' not found");
+
+			var chatModel = builder.Configuration.GetConnectionString("ChatModel")
+				?? throw new InvalidOperationException("Connection string 'ChatModel' not found");
+
+			builder.Services.AddChatContext(chatEndpoint, chatKey, chatModel);
+      
 			var translatorKey = builder.Configuration.GetConnectionString("TranslatorKey")
 				?? throw new InvalidOperationException("Connection string 'TranslatorKey' not found");
 

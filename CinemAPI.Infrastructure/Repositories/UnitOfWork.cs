@@ -14,6 +14,7 @@ namespace CinemAPI.Infrastructure.Repositories
 		public IStorageRepository Storage { get; }
 		public ITranslatorRepository Translator { get; }
 		public ILogRepository Logs { get; }
+		public IChatRepository Chat { get; }
 
 
 		public UnitOfWork
@@ -23,8 +24,9 @@ namespace CinemAPI.Infrastructure.Repositories
 			IGenericRepository<Genre> genres,
 			IMovieRepository movies,
 			IStorageRepository storage,
-			ITranslatorRepository translator,
-			ILogRepository logs
+			ILogRepository logs,
+			IChatRepository chat,
+			ITranslatorRepository translator
 		)
         {
             _context = context;
@@ -34,6 +36,7 @@ namespace CinemAPI.Infrastructure.Repositories
 			Storage = storage;
 			Translator = translator;
 			Logs = logs;
+			Chat = chat;
 		}
 
         public async Task SaveChangesAsync()

@@ -12,19 +12,37 @@ namespace CinemAPI.Application.Implementations
 	{
 		private readonly IMovieRepository _movieRepository;
 		private readonly IStorageRepository _storageRepository;
+		private readonly IChatRepository _chatRepository;
 		private readonly IUnitOfWork _uow;
 		private readonly ILogRepository _logs;
 
 		public MovieService (
 			IMovieRepository movieRepository,
 			IStorageRepository storageRepository,
+			IChatRepository chatRepository,
 			IUnitOfWork uow,
 			ILogRepository logs )
 		{
 			_movieRepository = movieRepository;
 			_storageRepository = storageRepository;
+			_chatRepository = chatRepository;
 			_uow = uow;
 			_logs = logs;
+		}
+
+		private async Task<string?> DescribePoster ( string url )
+		{
+			var prompt =
+			"""
+			Look at the attached movie poster and identify the film (if you recognize it) or infer its likely genre and premise. 
+			Write a 3-5 sentence movie description/synopsis (without title, year or something) as it would appear on a streaming 
+			platform — describing the story, main character(s), setting, and central conflict. Do NOT describe the poster itself 
+			(no mentioning colors, typography, composition, or imagery) — focus only on the plot, characters, and stakes of the film. 
+			Write in an engaging, cinematic tone, as a real synopsis would read. If you recognize the specific film, use accurate
+			plot details; if not, infer a plausible premise based on genre cues and write it as a confident synopsis.
+			""";
+			var result = await _chatRepository.AnalyzeAsync(prompt, url);
+			return result.Content[0].Text;
 		}
 
 		public async Task<PagedResult<MovieDto>> GetMoviesAsync ( int page )
@@ -114,6 +132,7 @@ namespace CinemAPI.Application.Implementations
 
 				var posterUrl = await _storageRepository.UploadAsync(uploadFile, "movie-gallery", ct);
 
+				movie.Description ??= await DescribePoster(posterUrl);
 				movie.PosterUrl = posterUrl;
 				await _uow.SaveChangesAsync();
 

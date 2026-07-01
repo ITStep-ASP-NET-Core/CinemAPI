@@ -10,6 +10,7 @@ namespace CinemAPI.Infrastructure.Interfaces
         IStorageRepository Storage { get; }
         ITranslatorRepository Translator { get; }
         ILogRepository Logs { get; }
+        IChatRepository Chat { get; }
 
 		Task SaveChangesAsync();
     }

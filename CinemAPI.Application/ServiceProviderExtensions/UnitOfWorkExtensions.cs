@@ -13,6 +13,7 @@ namespace CinemAPI.Application.ServiceProviderExtensions
             services.AddScoped<IStorageRepository, BlobStorageRepository>();
             services.AddScoped<ITranslatorRepository, AzureTranslatorRepository>();
             services.AddScoped<ILogRepository, TableStorageLogRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
     }
