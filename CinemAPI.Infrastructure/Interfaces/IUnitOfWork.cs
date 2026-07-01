@@ -9,6 +9,7 @@ namespace CinemAPI.Infrastructure.Interfaces
         IMovieRepository Movies { get; }
         IStorageRepository Storage { get; }
         ILogRepository Logs { get; }
+        IChatRepository Chat { get; }
 
 		Task SaveChangesAsync();
     }
